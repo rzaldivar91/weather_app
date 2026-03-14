@@ -15,7 +15,7 @@ class WeathersController < ApplicationController
       @weather = WeatherService.all(@geocoding["lat"], @geocoding["lon"])
 
       if @weather.success?
-        render json: @weather, status: :ok
+        @weather
       else
         render json: { error: @weather["message"] }, status: @weather["cod"]
       end
