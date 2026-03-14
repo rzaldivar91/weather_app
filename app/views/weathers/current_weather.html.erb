@@ -1,0 +1,37 @@
+<h1> Reporte del clima </h1>
+<%= form_with url: current_weather_path, method: :get do |form| %>
+  <%= form.label :zip_code, "Search for ZIP code:" %>
+  <%= form.text_field :zip_code %>
+  <%= form.submit "Search" %>
+<% end %>
+
+<br>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= content_tag :strong, 'Descripción:' %>
+      <%= @weather["weather"][0]["description"].capitalize %>
+    </div>
+    <div class="form-group">
+      <%= content_tag :strong, 'Temperatura:' %>
+      <%= "#{(@weather["main"]["temp"] - 273.15).round(1)} ° Celcius" %>
+    </div>
+    <div class="form-group">
+      <%= content_tag :strong, 'Sensación térmica:' %>
+      <%= "#{(@weather["main"]["feels_like"] - 273.15).round(1)} ° Celcius" %>
+    </div>
+    <div class="form-group">
+      <%= content_tag :strong, 'Amanecer:' %>
+      <%= Time.at(@weather["sys"]["sunrise"]).in_time_zone("America/Mexico_City").strftime("%I:%M %p") %>
+    </div>
+    <div class="form-group">
+      <%= content_tag :strong, 'Atardecer:' %>
+      <%= Time.at(@weather["sys"]["sunset"]).in_time_zone("America/Mexico_City").strftime("%I:%M %p") %>
+    </div>
+    <div class="form-group">
+      <%= content_tag :strong, 'Zona horaria:' %>
+      <%= (ActiveSupport::TimeZone[@weather["timezone"] / 3600].name) %>
+    </div>
+  </div>
+</div>
