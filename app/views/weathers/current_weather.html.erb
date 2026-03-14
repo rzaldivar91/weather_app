@@ -1,4 +1,9 @@
 <h1> Reporte del clima </h1>
+
+<% if @error %>
+  <%= content_tag :p, @error, style: "color: red;" %>
+<% end %>
+
 <%= form_with url: current_weather_path, method: :get do |form| %>
   <%= form.label :zip_code, "Search for ZIP code:" %>
   <%= form.text_field :zip_code %>

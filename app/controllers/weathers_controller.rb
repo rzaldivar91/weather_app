@@ -18,16 +18,20 @@ class WeathersController < ApplicationController
         if @weather.success?
           render :current_weather
         else
-          render json: { error: @weather["message"] }, status: @weather["cod"]
+          @error = @weather["message"]
         end
       else
-        render json: { error: @geocoding["message"] }, status: @geocoding["cod"]
+        @error = @geocoding["message"]
       end
     end
 
     respond_to do |format|
       format.html
-      format.json
+      format.json do
+        if @error
+          render json: { error: @error }, status: :not_found
+        end
+      end
     end
   end
 
